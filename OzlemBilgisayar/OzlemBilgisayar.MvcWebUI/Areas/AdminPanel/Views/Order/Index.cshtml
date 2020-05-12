@@ -1,0 +1,315 @@
+﻿@model OzlemBilgisayar.MvcWebUI.Areas.AdminPanel.Models.OrderModels.OderIndexVm
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row text-center">
+    <div class="col-sm-6 col-lg-4">
+        <a href="javascript:void(0)" class="widget widget-hover-effect2">
+            <div class="widget-extra themed-background-success">
+                <h4 class="widget-content-light"><strong>Tamamlanan Sipariş</strong></h4>
+            </div>
+            <div class="widget-extra-full">
+                <span class="h2 text-success animation-expandOpen">
+                    @Model.Orders.Where(x => x.IsComplete).Count()
+                </span>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-4">
+        <a href="javascript:void(0)" class="widget widget-hover-effect2">
+            <div class="widget-extra themed-background-warning">
+                <h4 class="widget-content-light"><strong>Bekleyen Sipariş</strong></h4>
+            </div>
+            <div class="widget-extra-full">
+                <span class="h2 text-warning animation-expandOpen">
+                    @Model.Orders.Where(x => !x.IsComplete).Count()
+                </span>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-4">
+        <a href="javascript:void(0)" class="widget widget-hover-effect2">
+            <div class="widget-extra themed-background-dark">
+                <h4 class="widget-content-light"><strong>Toplam Sipariş Sayısı</strong></h4>
+            </div>
+            <div class="widget-extra-full">
+                <span class="h2 themed-color-dark animation-expandOpen">
+                    @Model.Orders.Count
+                </span>
+            </div>
+        </a>
+    </div>
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <h3>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="fa fa-times"></i></span>
+            </button>
+            <i class="fa fa-check"></i> <strong>@TempData["Message"]</strong>
+        </h3>
+    </div>
+}
+
+<div class="block full">
+    <div class="block-title">
+        <div class="block-options pull-left">
+            <span class="label label-warning"><strong><i class="fa fa-shopping-cart"></i> (@Model.Orders.Where(x => !x.IsComplete).Count())</strong></span>
+        </div>
+        <h2><strong>Bekleyen Siparişler</strong></h2>
+    </div>
+
+    <div class="table-responsive">
+        <table id="incomplete-datatable" class="table table-vcenter table-condensed table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center">
+                        <i class="gi gi-picture"></i>
+                    </th>
+                    <th class="text-center">Fİlm Adı</th>
+                    <th>Sipariş Tarihi</th>
+                    <th class="text-center">Durum</th>
+                    <th class="text-center">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Orders.Where(x => !x.IsComplete).ToList())
+                {
+                    <tr>
+                        <td class="text-center">
+                            @if (string.IsNullOrEmpty(order.Movie.Image))
+                            {
+                                <img src="~/ThemeFiles/Admin/img/placeholders/avatars/avatar.jpg" alt="avatar" class="img-thumbnail">
+                            }
+                            else
+                            {
+                                <img src="@Url.Content($"~/Uploads/Img/{@order.Movie.Image}")" alt="avatar" class="img-thumbnail" width="50">
+                            }
+                        </td>
+                        <td class="text-center">@order.Movie.Title</td>
+                        <td>@order.Created.ToShortDateString()</td>
+                        <td class="text-center">
+                            <span class="label label-warning"><strong>Beklemede</strong></span>
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <a orderId="@order.Id"
+                                   data-toggle="tooltip"
+                                   title="Tamamla"
+                                   class="btn btn-xs btn-success btnCompleteOrder">
+                                    <i class="fa fa-check"></i>
+                                </a>
+                                <a orderId="@order.Id"
+                                   data-toggle="tooltip"
+                                   title="iptal"
+                                   class="btn btn-xs btn-danger btnCancelOrder">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="block full">
+    <div class="block-title">
+        <div class="block-options pull-left">
+            <span class="label label-success"><strong><i class="fa fa-shopping-cart"></i> (@Model.Orders.Where(x => x.IsComplete).Count())</strong></span>
+        </div>
+        <h2><strong>Tamamlanan Siparişler</strong></h2>
+    </div>
+
+    <div class="table-responsive">
+        <table id="completed-datatable" class="table table-vcenter table-condensed table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center">
+                        <i class="gi gi-picture"></i>
+                    </th>
+                    <th class="text-center">Fİlm Adı</th>
+                    <th>Sipariş Tarihi</th>
+                    <th class="text-center">Durum</th>
+                    <th class="text-center">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Orders.Where(x => x.IsComplete).ToList())
+                {
+                    <tr>
+                        <td class="text-center">
+                            @if (string.IsNullOrEmpty(order.Movie.Image))
+                            {
+                                <img src="~/ThemeFiles/Admin/img/placeholders/avatars/avatar.jpg" alt="avatar" class="img-thumbnail">
+                            }
+                            else
+                            {
+                                <img src="@Url.Content($"~/Uploads/Img/{@order.Movie.Image}")" alt="avatar" class="img-thumbnail" width="50">
+                            }
+                        </td>
+                        <td class="text-center">@order.Movie.Title</td>
+                        <td>@order.Created.ToShortDateString()</td>
+                        <td class="text-center">
+                            @if (order.IsComplete)
+                            {
+                                <span class="label label-success"><strong>Tamamlandı</strong></span>
+                            }
+                            else
+                            {
+                                <span class="label label-warning"><strong>Beklemede</strong></span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <a orderId="@order.Id"
+                                   data-toggle="tooltip"
+                                   title="Tamamla"
+                                   class="btn btn-xs btn-success btnCompleteOrder">
+                                    <i class="fa fa-check"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section styles{}
+
+@section scripts{
+    <script>
+        $(function () {
+            /*Activate Page Header*/
+            $('.content-header #order-index').toggleClass('active');
+            /* Initialize Bootstrap Datatables Integration */
+            App.datatables();
+
+            /* Initialize Datatables */
+            $('#incomplete-datatable').dataTable({
+                //order: [[2, "desc"]],
+                columnDefs: [{ orderable: false, targets: [0, 1, 2, 3, 4] }],
+                pageLength: 10,
+                lengthMenu: [[10, 20, 30, -1], [10, 20, 30, 'All']]
+            });
+
+            $('#completed-datatable').dataTable({
+                columnDefs: [{ orderable: false, targets: [0, 1, 2, 3, 4] }],
+                pageLength: 10,
+                lengthMenu: [[10, 20, 30, -1], [10, 20, 30, 'All']]
+            });
+
+            /* Add placeholder attribute to the search input */
+            $('.dataTables_filter input').attr('placeholder', 'Ara...');
+
+            $('.btnCompleteOrder').click(function () {
+                var orderId = $(this).attr('orderId');
+                swal({
+                    title: "Değişiklik için emin misiniz?",
+                    text: 'Siparişi hazırlandı olarak değiştirmek üzeresiniz.',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Evet',
+                    cancelButtonText: 'Hayır'
+                }).then(function (isConfirm) {
+                    if (isConfirm) {
+                        $.ajax({
+                            url: '/AdminPanel/Order/CompleteOrder',
+                            method: 'post',
+                            dataType: 'json',
+                            data: { orderId: orderId },
+                            success: response => {
+                                swal({
+                                    type: 'success',
+                                    title: 'İşlem Başarılı...',
+                                    text: response.Message,
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Tamam',
+                                    allowOutsideClick: false
+                                }).then(function () {
+                                    location.reload();
+                                });
+                            },
+                            error: err => {
+                                swal({
+                                    type: 'error',
+                                    title: 'işlem gerçekleşmedi...',
+                                    text: err,
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Tamam',
+                                    allowOutsideClick: false
+                                });
+                            }
+                        });
+
+                    }
+                });
+
+            });
+
+            $('.btnCancelOrder').click(function () {
+                var orderId = $(this).attr('orderId');
+                swal({
+                    title: "Emin misiniz?",
+                    text: 'Siparişi iptal etmek üzeresiniz.',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Evet, iptal!',
+                    cancelButtonText: 'Hayır, iptal etme!'
+                }).then(function (isConfirm) {
+                    if (isConfirm) {
+                        $.ajax({
+                            url: '/AdminPanel/Order/CancelOrder',
+                            method: 'post',
+                            dataType: 'json',
+                            data: { orderId: orderId },
+                            success: response => {
+                                swal({
+                                    type: 'success',
+                                    title: 'İşlem Başarılı...',
+                                    text: response.Message,
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Tamam',
+                                    allowOutsideClick: false
+                                }).then(function () {
+                                    location.reload();
+                                });
+                            },
+                            error: err => {
+                                swal({
+                                    type: 'error',
+                                    title: 'işlem gerçekleşmedi...',
+                                    text: err,
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Tamam',
+                                    allowOutsideClick: false
+                                });
+                            }
+                        });
+
+                    }
+                });
+
+            });
+        });
+    </script>
+}
+
+
+

@@ -1,0 +1,168 @@
+﻿@model OzlemBilgisayar.MvcWebUI.Areas.AdminPanel.Models.UserModels.UserIndexVm
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row text-center">
+    <div class="col-sm-6 col-lg-3">
+        <a href="@Url.Action("Create","User",new { Area="AdminPanel"})" class="widget widget-hover-effect2">
+            <div class="widget-extra themed-background-success">
+                <h4 class="widget-content-light"><strong>Kullanıcı Ekle</strong></h4>
+            </div>
+            <div class="widget-extra-full"><span class="h2 text-success animation-expandOpen"><i class="fa fa-plus"></i></span></div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <a href="javascript:void(0)" class="widget widget-hover-effect2">
+            <div class="widget-extra themed-background-danger">
+                <h4 class="widget-content-light"><strong>Kullanım Dışı Sayısı</strong></h4>
+            </div>
+            <div class="widget-extra-full">
+                <span class="h2 text-danger animation-expandOpen">
+                    @Model.Users.Where(x => !x.IsActive).Count()
+                </span>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <a href="javascript:void(0)" class="widget widget-hover-effect2">
+            <div class="widget-extra themed-background-success">
+                <h4 class="widget-content-light"><strong>Kullanılabilir Sayısı</strong></h4>
+            </div>
+            <div class="widget-extra-full">
+                <span class="h2 text-success animation-expandOpen">
+                    @Model.Users.Where(x => x.IsActive).Count()
+                </span>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <a href="javascript:void(0)" class="widget widget-hover-effect2">
+            <div class="widget-extra themed-background-dark">
+                <h4 class="widget-content-light"><strong>Toplam Kayıt Sayısı</strong></h4>
+            </div>
+            <div class="widget-extra-full">
+                <span class="h2 themed-color-dark animation-expandOpen">
+                    @Model.Users.Count
+                </span>
+            </div>
+        </a>
+    </div>
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <h4>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="fa fa-times"></i></span>
+            </button>
+            <i class="fa fa-check"></i> <strong>@TempData["Message"]</strong>
+        </h4>
+    </div>
+}
+
+<div class="block full">
+    <div class="block-title">
+        <h2><strong>Kullanıcı Listesi</strong></h2>
+    </div>
+
+    <div class="table-responsive">
+        <table id="example-datatable" class="table table-vcenter table-condensed table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center">
+                        <i class="gi gi-user"></i>
+                    </th>
+                    <th class="text-center">Ad Soyad</th>
+                    <th class="text-center">Role</th>
+                    <th>Üyelik Tarihi</th>
+                    <th class="text-center">Durum</th>
+                    <th class="text-center">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    if (user.UserName != User.Identity.Name)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                @if (string.IsNullOrEmpty(user.Image))
+                                {
+                                    <img src="~/ThemeFiles/Admin/img/placeholders/avatars/avatar.jpg" alt="avatar" class="img-thumbnail">
+                                }
+                                else
+                                {
+                                    <img src="@Url.Content("~/Uploads/Img/"+user.Image)" alt="avatar" class="img-thumbnail" width="50">
+                                }
+                            </td>
+                            <td class="text-center">@user.FirstName @user.LastName</td>
+                            <td class="text-center">@string.Join(",", user.Roles.Select(x => x.Name).ToArray())</td>
+                            <td>@user.Created.ToShortDateString()</td>
+                            <td class="text-center">
+                                @if (user.IsActive)
+                                {
+                                    <span class="label label-success"><strong>Kullanımda</strong></span>
+                                }
+                                else
+                                {
+                                    <span class="label label-danger"><strong>Kullanım Dışı</strong></span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    @if (!(user.Roles.Select(x => x.Name).ToArray().Contains("SuperAdmin") || user.Roles.Select(x => x.Name).ToArray().Contains("Admin")))
+                                    {
+                                        <a href="@Url.Action("Edit","User",new { id=user.Id,Area="AdminPanel"})" data-toggle="tooltip" title="Edit" class="btn btn-xs btn-default"><i class="fa fa-pencil"></i></a>
+
+                                        <a href="@Url.Action("Delete","User",new { id=user.Id,Area="AdminPanel"})" data-toggle="tooltip" title="Delete" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
+                                    }
+                                    else if (User.IsInRole("SuperAdmin"))
+                                    {
+                                        <a href="@Url.Action("Edit","User",new { id=user.Id,Area="AdminPanel"})" data-toggle="tooltip" title="Edit" class="btn btn-xs btn-default"><i class="fa fa-pencil"></i></a>
+
+                                        <a href="@Url.Action("Delete","User",new { id=user.Id,Area="AdminPanel"})" data-toggle="tooltip" title="Delete" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
+                                    }
+
+                                    <a href="@Url.Action("Details","User",new { id=user.Id,Area="AdminPanel"})" data-toggle="tooltip" title="Details" class="btn btn-xs btn-info"><i class="fa fa-eye"></i></a>
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section styles{}
+
+@section scripts{
+    <script>
+        $(function () {
+            /*Activate Page Header*/
+            $('.content-header #user-index').toggleClass('active');
+            /* Initialize Bootstrap Datatables Integration */
+            App.datatables();
+
+            /* Initialize Datatables */
+            $('#example-datatable').dataTable({
+                order: [[1, "desc"]],
+                columnDefs: [{ orderable: false, targets: [0, 4, 5] }],
+                pageLength: 10,
+                lengthMenu: [[10, 20, 30, -1], [10, 20, 30, 'All']]
+            });
+
+            /* Add placeholder attribute to the search input */
+            $('.dataTables_filter input').attr('placeholder', 'Ara...');
+        });
+    </script>
+}

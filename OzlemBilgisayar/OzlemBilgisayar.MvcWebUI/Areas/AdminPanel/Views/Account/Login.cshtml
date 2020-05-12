@@ -1,0 +1,175 @@
+﻿@model OzlemBilgisayar.MvcWebUI.Areas.AdminPanel.Models.AccountModels.AccountLoginVm
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="no-js lt-ie10" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title>Özlem Bilgisayar - Yönetici Girişi</title>
+
+    <meta name="description" content="ProUI is a Responsive Bootstrap Admin Template created by pixelcave and published on Themeforest.">
+    <meta name="author" content="pixelcave">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    <link rel="shortcut icon" href="~/ThemeFiles/Admin/img/favicon.png">
+    <link rel="apple-touch-icon" href="~/ThemeFiles/Admin/img/icon57.png" sizes="57x57">
+    <link rel="apple-touch-icon" href="~/ThemeFiles/Admin/img/icon72.png" sizes="72x72">
+    <link rel="apple-touch-icon" href="~/ThemeFiles/Admin/img/icon76.png" sizes="76x76">
+    <link rel="apple-touch-icon" href="~/ThemeFiles/Admin/img/icon114.png" sizes="114x114">
+    <link rel="apple-touch-icon" href="~/ThemeFiles/Admin/img/icon120.png" sizes="120x120">
+    <link rel="apple-touch-icon" href="~/ThemeFiles/Admin/img/icon144.png" sizes="144x144">
+    <link rel="apple-touch-icon" href="~/ThemeFiles/Admin/img/icon152.png" sizes="152x152">
+    <link rel="apple-touch-icon" href="~/ThemeFiles/Admin/img/icon180.png" sizes="180x180">
+    <!-- END Icons -->
+    <!-- Stylesheets -->
+    <!-- Bootstrap is included in its original form, unaltered -->
+    <link rel="stylesheet" href="~/ThemeFiles/Admin/css/bootstrap.min.css">
+
+    <!-- Related styles of various icon packs and plugins -->
+    <link rel="stylesheet" href="~/ThemeFiles/Admin/css/plugins.css">
+
+    <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
+    <link rel="stylesheet" href="~/ThemeFiles/Admin/css/main.css">
+
+    <!-- Include a specific file here from css/themes/ folder to alter the default theme of the template -->
+    <!-- The themes stylesheet of this template (for using specific theme color in individual elements - must included last) -->
+    <link rel="stylesheet" href="~/ThemeFiles/Admin/css/themes.css">
+    <!-- END Stylesheets -->
+    <!-- Modernizr (browser feature detection library) -->
+    <script src="~/ThemeFiles/Admin/js/vendor/modernizr.min.js"></script>
+</head>
+<body>
+    <!-- Login Alternative Row -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 col-md-offset-1">
+                <div id="login-alt-container">
+                    <!-- Title -->
+                    <h1 class="push-top-bottom">
+                        <i class="gi gi-film"></i> <strong>Özlem Bilgisayar</strong><br>
+                        <small>Yönetici Girişi</small>
+                    </h1>
+                    <!-- END Title -->
+                    <!-- Key Features -->
+                    <ul class="fa-ul text-muted">
+                        <li><i class="fa fa-check fa-li text-success"></i> Film Ekleme &amp; Güncelleme</li>
+                        <li><i class="fa fa-check fa-li text-success"></i> Kullanıcı Ekleme &amp; Güncelleme</li>
+                        <li><i class="fa fa-check fa-li text-success"></i> Sipariş İşlemleri</li>                        
+                    </ul>
+                    <!-- END Key Features -->
+                    <!-- Footer -->
+                    <footer class="text-muted push-top-bottom">
+                        <small><span id="year-copy"></span> &copy; <a href="http://yasinaksu.net" target="_blank">Yasin Aksu</a></small>
+                    </footer>
+                    <!-- END Footer -->
+                </div>
+            </div>
+            <div class="col-md-5">
+                <!-- Login Container -->
+                <div id="login-container">
+                    <!-- Login Title -->
+                    <div class="login-title text-center">
+                        <h1><strong>Giriş Yap</strong></h1>
+                    </div>
+                    <!-- END Login Title -->
+                    <!-- Login Block -->
+                    <div class="block push-bit">
+                        <!-- Login Form -->
+                        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", autocomplete = "off" }))
+                        {
+                            @Html.HiddenFor(x=>x.ReturnUrl)
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="gi gi-envelope"></i></span>
+                                        @Html.TextBoxFor(x => x.Email, new { @class = "form-control input-lg", placeholder = "E-posta giriniz..." })
+                                    </div>
+                                    @Html.ValidationMessageFor(x => x.Email, "", new { @class = "help-block" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="gi gi-asterisk"></i></span>
+                                        @Html.PasswordFor(x => x.Password, new { @class = "form-control input-lg", placeholder = "Parola giriniz..." })
+                                    </div>
+                                    @Html.ValidationMessageFor(x => x.Password, "", new { @class = "help-block" })
+                                </div>
+                            </div>
+                            <div class="form-group form-actions">
+                                <div class="col-xs-4">
+                                    <label class="switch switch-primary" data-toggle="tooltip" title="Beni Hatırla?">
+                                        <input type="checkbox" id="RememberMe" name="RememberMe">
+                                        <span></span>
+                                    </label>
+                                </div>
+                                <div class="col-xs-8 text-right">
+                                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-angle-right"></i> Giriş Yap</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12 text-center">
+                                    <a href="javascript:void(0)" id="link-reminder-login"><small>Parolamı unuttum?</small></a>
+                                </div>
+                            </div>
+                        }
+
+                        <!-- END Login Form -->
+
+                    </div>
+                    <!-- END Login Block -->
+                </div>
+                <!-- END Login Container -->
+            </div>
+        </div>
+    </div>
+    <!-- END Login Alternative Row -->
+    <!-- Modal Terms -->
+    <!-- END Modal Terms -->
+    <!-- jQuery, Bootstrap.js, jQuery plugins and Custom JS code -->
+    <script src="~/ThemeFiles/Admin/js/vendor/jquery.min.js"></script>
+    <script src="~/ThemeFiles/Admin/js/vendor/bootstrap.min.js"></script>
+    <script src="~/ThemeFiles/Admin/js/plugins.js"></script>
+    <script src="~/ThemeFiles/Admin/js/app.js"></script>
+
+    <!-- Load and execute javascript code used only in this page -->
+    <script src="~/ThemeFiles/Admin/js/pages/login.js"></script>
+    <script>
+        $(function () {
+            Login.init();
+        });
+        (function ($) {
+            var defaultOptions = {
+                errorClass: 'has-error',
+                validClass: 'has-success',
+                highlight: function (element, errorClass, validClass) {
+                    $(element).closest(".form-group")
+                        .addClass(errorClass)
+                        .removeClass(validClass);
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).closest(".form-group")
+                        .removeClass(errorClass)
+                        .addClass(validClass);
+                }
+            };
+
+            $.validator.setDefaults(defaultOptions);
+
+            $.validator.unobtrusive.options = {
+                errorClass: defaultOptions.errorClass,
+                validClass: defaultOptions.validClass,
+            };
+        })(jQuery);
+    </script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+﻿@model OzlemBilgisayar.MvcWebUI.Areas.AdminPanel.Models.MovieModels.MovieCreateVm
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> categoryList = ViewBag.Categories;
+}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget">
+                <div class="widget-simple">
+                    <a href="@Url.Action("Index","Movie",new { area="AdminPanel"})" class="widget-icon pull-left animation-fadeIn themed-background">
+                        <i class="fa fa-arrow-left"></i>
+                    </a>
+                    <a href="javascript:void(0)" class="widget-icon pull-right animation-fadeIn themed-background">
+                        <i class="fa fa-film"></i>
+                    </a>
+                    <h4 class="widget-content text-center animation-hatch">
+                        <strong>Film Ekleme</strong>
+                        <small>Sayfası</small>
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="block">
+                <!-- Horizontal Form Title -->
+                <div class="block-title">
+                    <h2><strong class="text-uppercase">Film Ekle</strong></h2>
+                </div>
+
+                @using (Html.BeginForm("Create", "Movie",
+                    new { Area = "AdminPanel" }, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data", autocomplete = "off" }))
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Image, "Film Resmi", new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(x => x.Image, new { type = "file", Name = "Image" })
+                            @Html.ValidationMessageFor(x => x.Image, "", new { @class = "help-block" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Title, "Film Adı", new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", placeholder = "Film adı giriniz..." })
+                            @Html.ValidationMessageFor(x => x.Title, "", new { @class = "help-block" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.ImdbRate, "IMDB Puanı", new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.ImdbRate,
+                                new
+                                     {
+                                    @class = "form-control input-slider",
+                                    placeholder = "Imdb Puanı giriniz...",
+                                    data_slider_min = "0",
+                                    data_slider_max = "10",
+                                    data_slider_step = "0.1",
+                                    data_slider_value = "5",
+                                    data_slider_orientation = "horizontal",
+                                    data_slider_selection = "before",
+                                    data_slider_tooltip = "show"
+                                })
+                            @Html.ValidationMessageFor(x => x.ImdbRate, "", new { @class = "help-block" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.ReleaseDate, "Çıkış Tarihi", new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.ReleaseDate, new
+                            {
+                                        @class = "form-control input-datepicker-close",
+                                        placeholder = "dd/mm/yyyy",
+                                        data_date_format = "dd/mm/yyyy"
+                                     })
+                            @Html.ValidationMessageFor(x => x.ReleaseDate, "", new { @class = "help-block" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Categories, "Film Kategorileri", new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            @Html.ListBoxFor(x => x.Categories, categoryList, new { @class = "form-control",size="10" })
+
+                            @Html.ValidationMessageFor(x => x.Categories, "", new { @class = "help-block" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.StoryLine, "Hikaye", new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextAreaFor(x => x.StoryLine, new { @class = "form-control", rows = "10" })
+                            @Html.ValidationMessageFor(x => x.StoryLine, "", new { @class = "help-block" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Trailer, "Fragman", new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextAreaFor(x => x.Trailer, new { @class = "form-control", rows = "5" })
+
+                            @Html.ValidationMessageFor(x => x.Trailer, "", new { @class = "help-block" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group form-actions">
+                        <div class="col-md-6 col-md-offset-3 text-left">
+                            <a id="btnYoutube" href="" class="btn btn-danger" target="_blank" data-toggle="tooltip" data-original-title="Fragman için yotube' a git"><i class="fa fa-youtube fa-2x"></i> </a>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.IsActive, "Kullanılabilir", new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            <div class="checkbox">
+                                <label>
+                                    @Html.CheckBoxFor(x => x.IsActive)
+                                </label>
+                            </div>
+                            @Html.ValidationMessageFor(x => x.IsActive, "", new { @class = "help-block" })
+                        </div>
+                    </div>
+
+                    <div class="form-group form-actions">
+                        <div class="col-md-9 col-md-offset-3">
+                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Kaydet</button>
+                            <button type="reset" class="btn btn-sm btn-warning"><i class="fa fa-repeat"></i> Sıfırla</button>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+    
+
+@section styles{
+
+}
+@section scripts{
+    <!-- ckeditor.js, load it only in the page you would like to use CKEditor (it's a heavy plugin to include it with the others!) -->
+    <script src="~/ThemeFiles/Admin/js/helpers/ckeditor/ckeditor.js"></script>
+    <script>
+        $(function () {
+            /*Activate Page Header*/
+            $('.content-header #movie-index').toggleClass('active');
+        /* Initialize Bootstrap Datatables Integration */
+            $('#btnYoutube').click(function () {
+                var url = "https://www.youtube.com/results?search_query=" + $('#Title').val()+' fragman';
+                $(this).attr('href', url);
+            });
+        });
+
+        (function ($) {
+            var defaultOptions = {
+                errorClass: 'has-error',
+                validClass: 'has-success',
+                highlight: function (element, errorClass, validClass) {
+                    $(element).closest(".form-group")
+                        .addClass(errorClass)
+                        .removeClass(validClass);
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).closest(".form-group")
+                        .removeClass(errorClass)
+                        .addClass(validClass);
+                }
+            };
+
+            $.validator.setDefaults(defaultOptions);
+
+            $.validator.unobtrusive.options = {
+                errorClass: defaultOptions.errorClass,
+                validClass: defaultOptions.validClass,
+            };
+        })(jQuery);
+    </script>
+}
+

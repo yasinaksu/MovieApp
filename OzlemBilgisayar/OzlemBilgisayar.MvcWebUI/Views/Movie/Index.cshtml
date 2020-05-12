@@ -1,0 +1,135 @@
+﻿@model OzlemBilgisayar.MvcWebUI.Models.MovieIndexVm
+
+@{
+    ViewBag.Title = "Tüm filmler";
+}
+
+
+<div class="container-fluid mb-3 mt-5">
+    <div class="row">
+        <div class="col-md-3 sidebar">
+            @Html.Action("_CategoryMenu", "Category")
+        </div>
+        <div class="col-md-9">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Filmler (@Model.MovieCount)
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @if (Model.Movies.Count == 0)
+                        {
+                            <div class="text-danger">Film bulunamadı</div>
+                        }
+                        else
+                        {
+                            foreach (var movie in Model.Movies)
+                            {
+                                <div class="col-md-4 mb-3">
+                                    <div class="card shadow-sm">
+                                        <img height="414" class="card-img-top" src="@Url.Content($"~/Uploads/Img/{movie.Image}")" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-3">
+                                                @movie.Title
+                                                (@movie.ReleaseDate.Year)
+                                            </h5>
+                                            <p class="card-text">
+                                                <i class="fa fa-star text-warning"></i>
+                                                @movie.ImdbRate
+                                            </p>
+
+                                        </div>
+                                        <div class="card-footer">
+                                            <button movieId="@movie.Id" type="button" class="btnAddShoppingCart btn btn-sm btn-outline-danger float-left" data-toggle="tooltip" data-placement="top" title="Sepete ekle">
+                                                <i class="fa fa-shopping-cart"></i>
+                                                Ekle
+                                            </button>
+                                            <button movieId="@movie.Id" type="button" class="btnMovieDetails btn btn-sm btn-outline-danger float-right" data-toggle="tooltip" data-placement="top" title="Film ayrıntıları">
+                                                <i class="fa fa-eye"></i>
+                                                Detay
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <!-- pager -->
+                    @if (Model.Pager.EndPage > 1)
+                    {
+                        <ul class="pagination">
+                            @if (Model.Pager.CurrentPage > 1)
+                            {
+                                <li class="page-item">
+                                    <a href="@Url.Action("index","movie")" class="page-link">First</a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="@Url.Action("index","movie",new { page=(Model.Pager.CurrentPage - 1)})" class="page-link">Previous</a>
+                                </li>                                
+                            }
+
+                            @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                            {
+                                <li class="@(page == Model.Pager.CurrentPage ? "active" : "") page-item">
+                                    <a href="@Url.Action("index","movie",new { page=page})" class="page-link">@page</a>
+                                </li>
+                            }
+
+                            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                            {
+                                <li class="page-item">
+                                    <a href="@Url.Action("index","movie",new { page=(Model.Pager.CurrentPage + 1)})" class="page-link">Next</a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="@Url.Action("index","movie",new { page=(Model.Pager.TotalPages)})" class="page-link">Last</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+@section style{
+    <style>
+        .active {
+            background-color: #DC3545 !important;
+            border-color: #DC3545 !important;
+        }
+
+        .card img {
+            object-fit: cover;
+            height: 414px;
+        }
+
+        @@media screen and (min-width: 992px) {
+            .sidebar {
+                position: sticky;
+                display: block;
+                overflow-x: hidden;
+                overflow-y: scroll;
+                height: 500px;
+            }
+        }
+    </style>
+}
+
+@section script{
+    <script>
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('#movie-index').toggleClass('active');
+        })
+    </script>
+}

@@ -1,0 +1,147 @@
+﻿@model OzlemBilgisayar.MvcWebUI.Areas.AdminPanel.Models.UserModels.UserEditVm
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="widget">
+            <div class="widget-extra-full themed-background-dark text-center">
+                <img class="img-responsive" src="@Url.Content("~/Uploads/Img/"+Model.CurrentImage)" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="widget">
+            <div class="widget-simple themed-background-dark">
+                <a href="javascript:void(0)" class="widget-icon pull-right themed-background">
+
+                    <i class="gi gi-user_add animation-floating"></i>
+                </a>
+                <a href="@Url.Action("Index","User",new { Area="AdminPanel"})" class="widget-icon pull-left themed-background-warning" data-toggle="tooltip" data-original-title="Listeye dön">
+                    <i class="gi gi-left_arrow animation-floating"></i>
+                </a>
+                <h4 class="widget-content widget-content-light">
+                    <strong>Kullanıcı Güncelle</strong>
+                    <small>@Model.FirstName @Model.LastName</small>
+                </h4>
+            </div>
+            <div class="widget-extra">
+                <h4 class="sub-header"></h4>
+
+                <div class="block">
+                    @using (Html.BeginForm("Edit", "User",
+                    new { Area = "AdminPanel" }, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data", autocomplete = "off" }))
+                    {
+                        @Html.HiddenFor(x=>x.Id)
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Image, "Kullanıcı Resmi", new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(x => x.Image, new { type = "file", @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Image, "", new { @class = "help-block" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.FirstName, "Adı", new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", placeholder = "Adı giriniz..." })
+                                @Html.ValidationMessageFor(x => x.FirstName, "", new { @class = "help-block" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.LastName, "Soyadı", new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", placeholder = "Soyadı giriniz..." })
+                                @Html.ValidationMessageFor(x => x.LastName, "", new { @class = "help-block" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Email, "E-Posta", new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", placeholder = "E-posta giriniz..." })
+                                @Html.ValidationMessageFor(x => x.Email, "", new { @class = "help-block" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Roles, "Kullanıcı Rolleri", new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                @Html.ListBoxFor(x => x.Roles, Model.RoleList, new { @class = "form-control" })
+
+                                @Html.ValidationMessageFor(x => x.Roles, "", new { @class = "help-block" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.IsActive, "Kullanılabilir", new { @class = "col-md-3 control-label" })
+                            <div class="col-md-9">
+                                <div class="checkbox">
+                                    <label>
+                                        @Html.CheckBoxFor(x => x.IsActive)
+                                    </label>
+                                </div>
+                                @Html.ValidationMessageFor(x => x.IsActive, "", new { @class = "help-block" })
+                            </div>
+                        </div>
+
+                        <div class="form-group form-actions">
+                            <div class="col-md-9 col-md-offset-3">
+                                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Kaydet</button>
+                                <button type="reset" class="btn btn-sm btn-warning"><i class="fa fa-repeat"></i> Sıfırla</button>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+
+@section styles{
+
+}
+@section scripts{
+    <!-- ckeditor.js, load it only in the page you would like to use CKEditor (it's a heavy plugin to include it with the others!) -->
+    <script>
+        $(function () {
+            /*Activate Page Header*/
+            $('.content-header #user-index').toggleClass('active');
+
+        });
+
+        (function ($) {
+            var defaultOptions = {
+                errorClass: 'has-error',
+                validClass: 'has-success',
+                highlight: function (element, errorClass, validClass) {
+                    $(element).closest(".form-group")
+                        .addClass(errorClass)
+                        .removeClass(validClass);
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).closest(".form-group")
+                        .removeClass(errorClass)
+                        .addClass(validClass);
+                }
+            };
+
+            $.validator.setDefaults(defaultOptions);
+
+            $.validator.unobtrusive.options = {
+                errorClass: defaultOptions.errorClass,
+                validClass: defaultOptions.validClass,
+            };
+        })(jQuery);
+    </script>
+}
+
+
+

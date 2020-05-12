@@ -1,0 +1,97 @@
+﻿@model OzlemBilgisayar.MvcWebUI.Areas.AdminPanel.Models.LayoutModels.LayoutHeaderVm
+<header class="navbar navbar-inverse">
+    <!-- Left Header Navigation -->
+    <ul class="nav navbar-nav-custom">
+        <!-- Main Sidebar Toggle Button -->
+        <li>
+            <a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar');this.blur();">
+                <i class="fa fa-bars fa-fw"></i>
+            </a>
+        </li>
+        <!-- END Main Sidebar Toggle Button -->
+        <!-- Template Options -->
+        <!-- Change Options functionality can be found in js/app.js - templateOptions() -->
+        @*<li class="dropdown">
+            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="gi gi-settings"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-custom dropdown-options">
+                <li class="dropdown-header text-center">Header Style</li>
+                <li>
+                    <div class="btn-group btn-group-justified btn-group-sm">
+                        <a href="javascript:void(0)" class="btn btn-primary" id="options-header-default">Light</a>
+                        <a href="javascript:void(0)" class="btn btn-primary" id="options-header-inverse">Dark</a>
+                    </div>
+                </li>
+                <li class="dropdown-header text-center">Page Style</li>
+                <li>
+                    <div class="btn-group btn-group-justified btn-group-sm">
+                        <a href="javascript:void(0)" class="btn btn-primary" id="options-main-style">Default</a>
+                        <a href="javascript:void(0)" class="btn btn-primary" id="options-main-style-alt">Alternative</a>
+                    </div>
+                </li>
+            </ul>
+        </li>*@
+        <!-- END Template Options -->
+    </ul>
+    <!-- END Left Header Navigation -->
+    <!-- Search Form -->
+    <form class="navbar-form-custom">
+        <div class="form-group">
+            <input type="text" id="top-search" name="top-search" class="form-control" placeholder="Arama yap..">
+        </div>
+    </form>
+    <!-- END Search Form -->
+    <!-- Right Header Navigation -->
+    <ul class="nav navbar-nav-custom pull-right">
+        <!-- Alternative Sidebar Toggle Button -->
+        <li>
+            <!-- If you do not want the main sidebar to open when the alternative sidebar is closed, just remove the second parameter: App.sidebar('toggle-sidebar-alt'); -->
+            @*<a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar-alt', 'toggle-other');this.blur();">
+                <i class="gi gi-shopping_cart"></i>
+                <span class="label label-warning label-indicator animation-floating">@Model.OrderCount</span>
+            </a>*@
+            <a href="@Url.Action("Index","Order",new { area="AdminPanel"})" data-toggle="tooltip" title="Siparişlere Git">
+                <i class="gi gi-shopping_cart"></i>
+                <span class="label label-warning label-indicator animation-floating">@Model.OrderCount</span>
+            </a>
+        </li>
+        <!-- END Alternative Sidebar Toggle Button -->
+        <!-- User Dropdown -->
+        <li class="dropdown">
+            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                @if (string.IsNullOrEmpty(Model.Image))
+                {
+                    <img src="~/ThemeFiles/Admin/img/placeholders/avatars/avatar.jpg" alt="avatar"> <i class="fa fa-angle-down"></i>
+                }
+                else
+                {
+                    <img src="@Url.Content($"~/Uploads/Img/{Model.Image}")" alt="@Model.FirstName"> <i class="fa fa-angle-down"></i>
+                }
+            </a>
+            <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
+                <li class="dropdown-header text-center">@Model.FirstName @Model.LastName</li>
+                <li>
+                    <a href="@Url.Action("UserProfile","Account",new { Area="AdminPanel",Id=Model.Id})">
+                        <i class="fa fa-user fa-fw pull-right"></i>
+                        Profilim
+                    </a>
+                    <a href="@Url.Action("ChangePassword","Account",new { Area="AdminPanel"})">
+                        <i class="fa fa-key fa-fw pull-right"></i>
+                        Parola Değiştir
+                    </a>
+                    <a href="@Url.Action("Edit","Account",new { Area="AdminPanel"})">
+                        <i class="fa fa-pencil fa-fw pull-right"></i>
+                        Bilgilerimi Güncelle
+                    </a>
+                    <a href="@Url.Action("Logout","Account",new { area="AdminPanel"})">
+                        <i class="gi gi-exit fa-fw pull-right"></i>                        
+                        Çıkış Yap
+                    </a>
+                </li>             
+            </ul>
+        </li>
+        <!-- END User Dropdown -->
+    </ul>
+    <!-- END Right Header Navigation -->
+</header>

@@ -1,0 +1,106 @@
+﻿@model OzlemBilgisayar.MvcWebUI.Areas.AdminPanel.Models.CategoryModels.EditVm
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Widget -->
+            <div class="widget">
+                <div class="widget-simple">
+                    <a href="@Url.Action("Index","Category",new { area="AdminPanel"})" class="widget-icon pull-left animation-fadeIn themed-background">
+                        <i class="fa fa-arrow-left"></i>
+                    </a>
+                    <a href="javascript:void(0)" class="widget-icon pull-right animation-fadeIn themed-background">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                    <h4 class="widget-content text-center animation-hatch">
+                        <strong>Kategori Güncelleme</strong>
+                        <small>Sayfası</small>
+                    </h4>
+                </div>
+            </div>
+            <!-- END Widget -->
+        </div>
+        <div class="col-md-12">
+            <div class="block">
+                <!-- Horizontal Form Title -->
+                <div class="block-title">                    
+                    <h2><strong>Kategori Güncelleme</strong> Formu</h2>
+                </div>
+
+                @using (Html.BeginForm("Edit", "Category",
+                    new { Area = "AdminPanel" }, FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.HiddenFor(x => x.Category.Id)
+                    @Html.HiddenFor(x => x.Category.Created)
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Category.Name, "Kategori Adı", new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.Category.Name, new { @class = "form-control", placeholder = "Kategori adı giriniz..." })
+                            @Html.ValidationMessageFor(x => x.Category.Name, "", new { @class = "help-block" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Category.IsActive, "Kullanılabilir", new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            <div class="checkbox">
+                                <label>
+                                    @Html.CheckBoxFor(x => x.Category.IsActive)
+                                </label>
+                            </div>
+                            @Html.ValidationMessageFor(x => x.Category.IsActive)
+                        </div>
+                    </div>
+
+                    <div class="form-group form-actions">
+                        <div class="col-md-9 col-md-offset-3">
+                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Kaydet</button>
+                            <button type="reset" class="btn btn-sm btn-warning"><i class="fa fa-repeat"></i> Sıfırla</button>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+
+@section styles{
+
+}
+@section scripts{
+    <script>
+        $(function () {
+            /*Activate Page Header*/
+            $('.content-header #category-index').toggleClass('active');
+            /* Initialize Bootstrap Datatables Integration */
+        });
+
+        (function ($) {
+            var defaultOptions = {
+                errorClass: 'has-error',
+                validClass: 'has-success',
+                highlight: function (element, errorClass, validClass) {
+                    $(element).closest(".form-group")
+                        .addClass(errorClass)
+                        .removeClass(validClass);
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).closest(".form-group")
+                        .removeClass(errorClass)
+                        .addClass(validClass);
+                }
+            };
+
+            $.validator.setDefaults(defaultOptions);
+
+            $.validator.unobtrusive.options = {
+                errorClass: defaultOptions.errorClass,
+                validClass: defaultOptions.validClass,
+            };
+        })(jQuery);
+    </script>
+}
+

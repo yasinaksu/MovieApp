@@ -1,0 +1,20 @@
+﻿@model OzlemBilgisayar.MvcWebUI.Areas.AdminPanel.Models.LayoutModels.LayoutRightSideBarVm
+<div id="sidebar-alt">
+    <!-- Wrapper for scrolling functionality -->
+    <div id="sidebar-alt-scroll">
+        <!-- Sidebar Content -->
+        <div class="sidebar-content">
+            <!-- Sidebar Section -->
+            <a href="@Url.Action("Index","Order",new { area="AdminPanel"})" class="sidebar-title">
+                <i class="gi gi-film pull-right"></i> <strong>Siparişler</strong>
+            </a>
+            @foreach (var movie in Model.Movies)
+            {
+                <div class="sidebar-section">@movie</div>
+            }
+            <!-- END Sidebar Section -->
+        </div>
+        <!-- END Sidebar Content -->
+    </div>
+    <!-- END Wrapper for scrolling functionality -->
+</div>

@@ -1,0 +1,110 @@
+﻿@model OzlemBilgisayar.MvcWebUI.Areas.AdminPanel.Models.MovieModels.MovieDeleteVm
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget">
+                <div class="widget-simple">
+                    <a href="@Url.Action("Index","Movie",new { area="AdminPanel"})" class="widget-icon pull-left animation-fadeIn themed-background">
+                        <i class="fa fa-arrow-left"></i>
+                    </a>
+                    <a href="javascript:void(0)" class="widget-icon pull-right animation-fadeIn themed-background">
+                        <i class="fa fa-film"></i>
+                    </a>
+                    <h4 class="widget-content text-center animation-hatch">
+                        <strong>Film Silme</strong>
+                        <small>Sayfası</small>
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="block">
+                <!-- Info Title -->
+                <div class="block-title">
+                    <h2><strong>@Model.Movie.Title</strong> filmini silmek istiyor musunuz?</h2>
+                </div>
+                <!-- END Info Title -->
+                <!-- Info Content -->
+                <div class="row">
+                    <div class="block-section col-md-3 text-center">
+                        <a href="@Url.Content("~/Uploads/Img/"+Model.Movie.Image)" data-toggle="lightbox-image">
+                            <img src="@Url.Content("~/Uploads/Img/"+Model.Movie.Image)" alt="@Model.Movie.Title" />
+                        </a>
+                        <h4 class="sub-header text-capitalize">@Model.Movie.Title</h4>
+                    </div>
+                    <div class="col-md-9">
+                        <table class="table table-borderless table-striped">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 20%;"><strong>Film Adı</strong></td>
+                                    <td>
+                                        @Model.Movie.Title
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Eklenme Tarihi</strong></td>
+                                    <td>
+                                        @Model.Movie.Created.ToShortDateString()
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Durum</strong></td>
+                                    <td>
+                                        @if (Model.Movie.IsActive)
+                                        {
+                                            <span class="badge label-success">Kullanımda</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge label-danger">Kullanım dışı</span>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+
+                                        @using (Html.BeginForm("Delete", "Movie", new { area = "AdminPanel" }, FormMethod.Post))
+                                        {
+                                            @Html.HiddenFor(x => x.Movie.Id)
+                                            <a href="@Url.Action("Index","Movie",new { Area="AdminPanel"})" class="btn btn-success">
+                                                <i class="fa fa-arrow-circle-left"></i>
+                                                Geri
+                                            </a>
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fa fa-recycle fa-fw"></i>
+                                                Sil
+                                            </button>
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- END Info Content -->
+            </div>
+        </div>
+    </div>
+
+
+
+
+@section styles{
+
+}
+@section scripts{
+    <script>
+        $(function () {
+            /*Activate Page Header*/
+            $('.content-header #movie-index').toggleClass('active');
+            /* Initialize Bootstrap Datatables Integration */
+        });
+    </script>
+}
+

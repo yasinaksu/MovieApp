@@ -1,0 +1,43 @@
+﻿@model OzlemBilgisayar.MvcWebUI.Models.CategoryMenuVm
+
+<div class="card mb-2">
+    <div class="list-group">
+        @if (Model.SelectedCategoryId > 0)
+        {
+            <a href="@Url.Action("index","movie")" class="list-group-item list-group-item-action">
+                Tüm Filmler
+            </a>
+            foreach (var category in Model.Categories)
+            {
+                if (Model.SelectedCategoryId == category.Id)
+                {
+                    <a href="@Url.Action("index","movie",new { id=category.Id})" class="list-group-item list-group-item-action active">
+                        @category.Name
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("index","movie",new { id=category.Id})" class="list-group-item list-group-item-action">
+                        @category.Name
+                    </a>
+                }
+
+            }
+        }
+        else
+        {
+            <a href="@Url.Action("index","movie")" class="list-group-item list-group-item-action active">
+                Tüm Filmler
+            </a>
+            foreach (var category in Model.Categories)
+            {
+                <a href="@Url.Action("index","movie",new { id=category.Id})" class="list-group-item list-group-item-action">
+                    @category.Name
+                </a>
+
+            }
+        }
+
+
+    </div>
+</div>

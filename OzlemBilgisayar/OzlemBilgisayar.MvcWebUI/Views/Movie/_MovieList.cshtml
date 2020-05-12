@@ -1,0 +1,85 @@
+﻿@model OzlemBilgisayar.MvcWebUI.Models.MovieListVm
+
+<div class="card mb-4">
+    <div class="card-header">
+        Filmler (@Model.Movies.Count)
+    </div>
+    <div class="card-body">
+        <div class="row">
+            @if (Model.Movies.Count == 0)
+            {
+                <div class="text-danger">Film bulunamadı</div>
+            }
+            else
+            {
+                foreach (var movie in Model.Movies)
+                {
+                    <div class="col-md-4 mb-3">
+                        <div class="card shadow-sm">
+                            <img height="414" class="card-img-top" src="@Url.Content($"~/Uploads/Img/{movie.Image}")" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">
+                                    @movie.Title
+                                    (@movie.ReleaseDate.Year)
+                                </h5>
+                                <p class="card-text">
+                                    <i class="fa fa-star text-warning"></i>
+                                    @movie.ImdbRate
+                                </p>
+
+                            </div>
+                            <div class="card-footer">
+                                <button movieId="@movie.Id" type="button" class="btnAddShoppingCart btn btn-sm btn-outline-danger float-left" data-toggle="tooltip" data-placement="top" title="Sepete ekle">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    Ekle
+                                </button>
+                                <button movieId="@movie.Id" type="button" class="btnMovieDetails btn btn-sm btn-outline-danger float-right" data-toggle="tooltip" data-placement="top" title="Film ayrıntıları">
+                                    <i class="fa fa-eye"></i>
+                                    Detay
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+
+        </div>
+    </div>
+    <div class="card-footer">
+        <!-- pager -->
+        @if (Model.Pager.EndPage > 1)
+        {
+            <ul class="pagination">
+                @if (Model.Pager.CurrentPage > 1)
+                {
+                    <li>
+                        <a href="~/Home/Index">First</a>
+                    </li>
+                    <li>
+                        <a href="~/Home/Index?page=@(Model.Pager.CurrentPage - 1)">Previous</a>
+                    </li>
+                }
+
+                @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                {
+                    <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                        <a href="~/Home/Index?page=@page">@page</a>
+                    </li>
+                }
+
+                @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                {
+                    <li>
+                        <a href="~/Home/Index?page=@(Model.Pager.CurrentPage + 1)">Next</a>
+                    </li>
+                    <li>
+                        <a href="~/Home/Index?page=@(Model.Pager.TotalPages)">Last</a>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+

@@ -1,0 +1,90 @@
+﻿@model OzlemBilgisayar.MvcWebUI.Areas.AdminPanel.Models.CategoryModels.DeleteVm
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Widget -->
+            <div class="widget">
+                <div class="widget-simple">
+                    <a href="@Url.Action("Index","Category",new { area="AdminPanel"})" class="widget-icon pull-left animation-fadeIn themed-background">
+                        <i class="fa fa-arrow-left"></i>
+                    </a>
+                    <a href="javascript:void(0)" class="widget-icon pull-right animation-fadeIn themed-background">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                    <h4 class="widget-content text-center animation-hatch">
+                        <strong>Kategori Silme</strong>
+                        <small>Sayfası</small>
+                    </h4>
+                </div>
+            </div>
+            <!-- END Widget -->
+        </div>
+        <div class="col-md-12">
+            <div class="block">
+                <!-- Info Title -->
+                <div class="block-title">
+                    <h2><strong>@Model.Category.Name</strong> kategorisini silmek istiyor musunuz?</h2>
+                </div>
+                <!-- END Info Title -->
+                <!-- Info Content -->
+                <table class="table table-borderless table-striped">
+                    <tbody>
+                        <tr>
+                            <td style="width: 20%;"><strong>Kategori Adı</strong></td>
+                            <td>
+                                @Model.Category.Name
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Eklenme Tarihi</strong></td>
+                            <td>
+                                @Model.Category.Created.ToShortDateString()
+                            </td>
+                        </tr>                        
+                        <tr>
+                            <td><strong>Kategorideki Film Sayısı</strong></td>
+                            <td><a href="javascript:void(0)" class="label label-danger">@Model.Category.Movies.Count</a></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+
+                                @using (Html.BeginForm("Delete", "Category", new { area = "AdminPanel" }, FormMethod.Post))
+                                {
+                                    @Html.HiddenFor(x => x.Category.Id)
+                                    <a href="@Url.Action("Index","Category",new { Area="AdminPanel"})" class="btn btn-success">
+                                        <i class="fa fa-arrow-circle-left"></i>
+                                        Geri
+                                    </a>
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fa fa-recycle fa-fw"></i>
+                                        Sil
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- END Info Content -->
+            </div>
+
+        </div>
+    </div>
+
+
+@section styles{
+
+}
+@section scripts{
+    <script>
+        $(function () {
+            /*Activate Page Header*/
+            $('.content-header #category-index').toggleClass('active');
+            /* Initialize Bootstrap Datatables Integration */
+        });
+    </script>
+}
+

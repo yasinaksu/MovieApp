@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DashBoard</h2>
+
+@section styles{}
+
+@section scripts{
+    <script>
+        $(function () {
+            /*Activate Page Header*/
+            $('.content-header #home-dashboard').toggleClass('active');
+            
+        });
+    </script>
+}

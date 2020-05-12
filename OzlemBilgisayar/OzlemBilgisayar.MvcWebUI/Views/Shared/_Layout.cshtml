@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Özlem Bilgisayar - @ViewBag.Title</title>
+    <link href="~/Content/fontawesome/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Libraries/sweetalert/css/sweetalert2.css" rel="stylesheet" />
+    @RenderSection("style", false)
+</head>
+<body>
+    @Html.Partial("_LayoutHeader")
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+
+    <!-- Footer -->
+    @*@Html.Partial("_LayoutFooter")*@
+    <!-- Footer -->
+    <!--Modal Partial Views-->
+    @Html.Partial("_ShoppingCart")
+
+    @Html.Partial("_MovieDetails")
+
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Libraries/sweetalert/js/sweetalert2.js"></script>
+    <script src="~/ThemeFiles/Front/app.js"></script>
+
+    @RenderSection("script", false)
+</body>
+</html>

@@ -1,0 +1,107 @@
+﻿@model OzlemBilgisayar.MvcWebUI.Areas.AdminPanel.Models.MovieModels.MovieDetailsVm
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget">
+                <div class="widget-simple">
+                    <a href="@Url.Action("Index","Movie",new { area="AdminPanel"})" class="widget-icon pull-left animation-fadeIn themed-background">
+                        <i class="fa fa-arrow-left"></i>
+                    </a>
+                    <a href="javascript:void(0)" class="widget-icon pull-right animation-fadeIn themed-background">
+                        <i class="fa fa-film"></i>
+                    </a>
+                    <h4 class="widget-content text-center animation-hatch">
+                        <strong>Film Detay</strong>
+                        <small>Sayfası</small>
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="widget">
+
+                <div class="widget-extra-full themed-background-dark text-center">
+                    <img class="img-responsive" src="@Url.Content("~/Uploads/Img/"+Model.Image)" alt="" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="widget">
+                <div class="widget-simple themed-background-dark">
+                    <span class="widget-icon pull-right themed-background">
+                        <i class="gi gi-film animation-floating"></i>
+                    </span>
+                    <h4 class="widget-content widget-content-light">
+                        <strong class="text-uppercase">@Model.Title</strong>
+                        <small class="text-primary">@Model.ReleaseDate.ToShortDateString()</small>
+                    </h4>
+                </div>
+
+                <div class="widget-extra-full themed-background-dark">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        @Html.Raw(Model.Trailer)
+                    </div>
+                </div>
+
+
+                <div class="widget-extra-full">
+                    <table class="table table-borderless table-striped">
+                        <tbody>
+                            <tr>
+                                <td style="width: 20%;"><strong>Filmin Adı</strong></td>
+                                <td>@Model.Title</td>
+                            </tr>
+                            <tr>
+                                <td><strong>IMDB</strong></td>
+                                <td>
+                                    <a href="javascript:void(0)" class="label label-success">@Model.ImdbRate</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Yapım Yılı</strong></td>
+                                <td>@Model.ReleaseDate.Year</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Kategorileri</strong></td>
+                                <td>
+
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <a href="javascript:void(0)" class="label label-info">@category</a>
+                                    }
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Özet</strong></td>
+                                <td>
+                                    <span class="FontBig">
+                                        @Model.StoryLine
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+@section styles{}
+
+@section scripts{
+    <script>
+        $(function () {
+            /*Activate Page Header*/
+            $('.content-header #movie-index').toggleClass('active');
+
+        });
+    </script>
+}
+
